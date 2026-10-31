@@ -7,7 +7,10 @@
 
 ## 怎么用
 
-双击 **启动应用坞.vbs** 即可。
+两种启动方式任选：
+
+1. **双击 `启动应用坞.vbs`** —— 需要本机装了 Node.js 18+
+2. **双击 `dist\AppDock.exe`** —— 免装 Node 的单文件可执行版（首次打开可能被 SmartScreen 提示，点「仍要运行」即可；exe 需和 `public`、`ps` 文件夹放在一起）
 
 第一次打开会自动扫描本机，把开始菜单里能找到的软件和游戏列出来。
 之后再装新软件，点右上角的「扫描」按钮补充，不会重复添加。
@@ -144,13 +147,18 @@ Python/Electron 那套上百 MB 的运行时一个都不需要，冷启动不到
 需要本机有 **Node.js 18+**。启动器会自动在 PATH 和常见安装目录里找 `node.exe`，
 找不到会弹提示，装好后重新双击即可（https://nodejs.org）。
 
-如果需要分发给没装 Node 的电脑，可以用 Node 自带的 SEA 打包成独立 exe：
+如果需要分发给没装 Node 的电脑，可以用 Node 自带的 SEA 打包成独立 exe（产物在 `dist/`，已加入 .gitignore，需自行构建）：
 
 ```bash
-node --experimental-sea-config sea-config.json   # 生成 sea-prep.blob
-node -e "require('fs').copyFileSync(process.execPath,'AppDock.exe')"
-npx postject AppDock.exe NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+npm i -g esbuild   # 或用 npx
+esbuild main.js --bundle --platform=node --format=cjs --outfile=dist/entry.cjs
+node --experimental-sea-config sea-config.json
+node -e "require('fs').copyFileSync(process.execPath,'dist/AppDock.exe')"
+npx -y postject dist/AppDock.exe NODE_SEA_BLOB dist/sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+node scripts/patch-exe.js dist/AppDock.exe app.ico   # 换图标 + 版本信息（依赖 resedit）
 ```
+
+构建完成后 `dist/` 里补上 `public/` 和 `lib/ps` 里的两个 `.ps1`（放进 `dist/ps/`）即为完整可分发目录。
 
 ## 已知边界
 
