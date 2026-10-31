@@ -1140,6 +1140,16 @@ function applySettings() {
   root.style.setProperty('--dim', String(s.wallpaperDim == null ? .55 : s.wallpaperDim));
   root.style.setProperty('--accent', s.accent || '#66c0f4');
   root.style.setProperty('--accent-soft', hexA(s.accent || '#66c0f4', .15));
+
+  // 把当前主题的标题栏颜色同步给 Chrome 窗口（--app 模式读 theme-color meta）
+  const titlebar = getComputedStyle(root).getPropertyValue('--titlebar').trim();
+  let metaTb = document.querySelector('meta[name="theme-color"]');
+  if (!metaTb) {
+    metaTb = document.createElement('meta');
+    metaTb.name = 'theme-color';
+    document.head.appendChild(metaTb);
+  }
+  if (titlebar) metaTb.content = titlebar;
   document.body.classList.toggle('glass-on', !!s.glass);
 
   if (s.wallpaper) {

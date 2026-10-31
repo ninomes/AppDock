@@ -46,6 +46,18 @@ function openAppWindow(browser, url) {
     '--disable-features=Translate,MediaRouter',
     '--disable-background-mode'
   ];
+  // Chrome --app 窗口的标题栏不认 theme-color meta，只能靠浏览器主题：
+  // 深色主题强制暗色标题栏，浅色主题跟随系统（一般是亮色，正好搭配）
+  try {
+    const st = store.load();
+    if (st.settings && st.settings.theme === 'light') {
+      // 浅色主题：保持系统默认亮色标题栏
+    } else {
+      args.push('--force-dark-mode');
+    }
+  } catch (_) {
+    args.push('--force-dark-mode');
+  }
   log('launch browser:', browser, args.join(' '));
   const child = spawn(browser, args, { detached: false, stdio: 'ignore' });
   child.on('error', (e) => log('browser error', e.message));

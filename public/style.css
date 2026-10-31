@@ -49,6 +49,7 @@ html[data-theme="steam"] {
   --shadow-pop: 0 24px 70px rgba(0, 0, 0, .58);
   --shadow-card: 0 14px 34px rgba(0, 0, 0, .38);
   --txt-shadow: 0 1px 3px rgba(0, 0, 0, .8);
+  --titlebar: #141922;
 }
 
 /* ---------- 主题：午夜紫 ---------- */
@@ -76,6 +77,7 @@ html[data-theme="midnight"] {
   --shadow-pop: 0 24px 70px rgba(0, 0, 0, .65);
   --shadow-card: 0 14px 34px rgba(0, 0, 0, .45);
   --txt-shadow: 0 1px 3px rgba(0, 0, 0, .85);
+  --titlebar: #161322;
 }
 
 /* ---------- 主题：浅色 ---------- */
@@ -103,6 +105,7 @@ html[data-theme="light"] {
   --shadow-pop: 0 24px 60px rgba(30, 45, 70, .18);
   --shadow-card: 0 12px 28px rgba(30, 45, 70, .12);
   --txt-shadow: 0 1px 2px rgba(255, 255, 255, .95);
+  --titlebar: #ffffff;
 }
 
 /* ---------- 基础 ---------- */
