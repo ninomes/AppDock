@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="steam" data-density="cozy">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>应用坞 AppDock</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="app" id="app" data-view="grid">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2.2"/><rect x="13" y="3" width="8" height="8" rx="2.2"/><rect x="3" y="13" width="8" height="8" rx="2.2"/><rect x="13" y="13" width="8" height="8" rx="2.2"/></svg>
+      </div>
+      <div class="brand-text">
+        <strong>应用坞 <span style="opacity:.55;font-size:.72em;letter-spacing:.08em">AppDock</span></strong>
+        <span>Application Hub</span>
+      </div>
+    </div>
+
+    <div class="nav-scroll">
+      <div class="nav-label">智能视图</div>
+      <nav class="nav" id="navSmart"></nav>
+      <div class="nav-label">分类</div>
+      <nav class="nav" id="navCats"></nav>
+    </div>
+
+    <div class="side-foot">
+      <button class="ghost-btn" id="btnNewCat">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        新建分类
+      </button>
+      <button class="ghost-btn subtle" id="btnShortcuts" title="快捷键说明">
+        <svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.6"/><path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M7.5 14h9"/></svg>
+        快捷键
+        <kbd>?</kbd>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">
+        <h1 id="title">全部应用</h1>
+        <span class="count" id="count"></span>
+      </div>
+
+      <div class="tools">
+        <div class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="search" type="text" placeholder="搜索应用、路径…" spellcheck="false" autocomplete="off">
+          <kbd id="searchKbd">/</kbd>
+        </div>
+        <div class="divider"></div>
+        <button class="tool-btn" id="btnSort" title="排序方式">
+          <svg viewBox="0 0 24 24"><path d="M7 5v14M7 19l-3-3M7 19l3-3"/><path d="M14 7h6M14 12h4.5M14 17h3"/></svg>
+        </button>
+        <button class="tool-btn" id="btnAdd" title="添加应用">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <button class="tool-btn" id="btnScan" title="扫描本机已安装的软件和游戏">
+          <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>
+        </button>
+        <button class="tool-btn" id="btnView" title="切换网格 / 列表">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.8"/><rect x="13" y="4" width="7" height="7" rx="1.8"/><rect x="4" y="13" width="7" height="7" rx="1.8"/><rect x="13" y="13" width="7" height="7" rx="1.8"/></svg>
+        </button>
+        <button class="tool-btn" id="btnSettings" title="设置">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.11a1.7 1.7 0 0 0-1.11-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.11A1.7 1.7 0 0 0 4.6 8.9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.11a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9v.11a1.7 1.7 0 0 0 1.56 1H21a2 2 0 1 1 0 4h-.11a1.7 1.7 0 0 0-1.49 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="content" id="content">
+      <div class="hero" id="hero" hidden></div>
+      <div class="list-area" id="listArea"></div>
+      <div class="empty" id="empty" hidden>
+        <div class="empty-art">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 4v16"/></svg>
+        </div>
+        <p id="emptyText">这里还是空的</p>
+        <button class="primary-btn" id="btnEmptyAdd">添加第一个应用</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- 批量操作条 -->
+<div class="batchbar" id="batchbar" hidden>
+  <span class="batch-count" id="batchCount">已选 0 项</span>
+  <div class="batch-actions">
+    <button class="mini-btn" id="batchPin">置顶</button>
+    <div class="batch-cat-wrap">
+      <button class="mini-btn" id="batchMove">移到分类</button>
+      <div class="popover" id="batchCatMenu" hidden></div>
+    </div>
+    <button class="mini-btn danger" id="batchRemove">移除</button>
+    <button class="mini-btn ghost" id="batchClear">取消</button>
+  </div>
+</div>
+
+<!-- 右键菜单 -->
+<div class="ctxmenu" id="ctxmenu" hidden></div>
+
+<!-- 排序菜单 -->
+<div class="popover sortmenu" id="sortMenu" hidden></div>
+
+<!-- 应用编辑弹窗 -->
+<div class="modal-mask" id="modalMask" hidden>
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <h2 id="modalTitle">添加应用</h2>
+      <button class="icon-btn" id="modalClose">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="editor-top">
+        <div class="editor-icon" id="editorIcon">
+          <img id="editorIconImg" alt="" hidden>
+          <span id="editorIconLetter">A</span>
+          <button class="icon-pick" id="btnPickIcon" title="更换图标">
+            <svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>
+          </button>
+        </div>
+        <div class="editor-fields">
+          <label>
+            <span>名称</span>
+            <input id="fName" type="text" placeholder="显示名称">
+          </label>
+          <label>
+            <span>程序路径</span>
+            <div class="input-row">
+              <input id="fTarget" type="text" placeholder="C:\Program Files\App\app.exe">
+              <button class="mini-btn" id="btnPickExe">浏览</button>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <label>
+          <span>分类</span>
+          <select id="fCategory"></select>
+        </label>
+        <label>
+          <span>启动参数（可选）</span>
+          <input id="fArgs" type="text" placeholder="-fullscreen">
+        </label>
+      </div>
+
+      <div class="field-grid">
+        <label>
+          <span>标签（可选，逗号分隔）</span>
+          <input id="fTags" type="text" placeholder="工作, 常用">
+        </label>
+        <label>
+          <span>备注（可选）</span>
+          <input id="fComment" type="text" placeholder="比如：只在周末开">
+        </label>
+      </div>
+
+      <label class="checkline">
+        <input type="checkbox" id="fPinned">
+        <span>置顶显示在列表最前面</span>
+      </label>
+
+      <p class="hint" id="editorHint"></p>
+    </div>
+    <div class="modal-foot">
+      <button class="text-btn danger" id="modalDelete" hidden>删除</button>
+      <div class="spacer"></div>
+      <button class="text-btn" id="modalCancel">取消</button>
+      <button class="primary-btn" id="modalSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 设置抽屉 -->
+<div class="drawer-mask" id="drawerMask" hidden>
+  <div class="drawer">
+    <div class="modal-head">
+      <h2>设置</h2>
+      <button class="icon-btn" id="drawerClose">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <div class="group">
+        <div class="group-title">主题</div>
+        <div class="themes" id="themes"></div>
+      </div>
+
+      <div class="group">
+        <div class="group-title">布局</div>
+        <div class="row">
+          <div class="row-label">图标大小</div>
+          <div class="row-ctrl">
+            <input id="rngIcon" type="range" min="40" max="88" step="4">
+            <span class="val" id="valIcon">56</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-label">紧凑模式<small>缩小卡片留白，一屏放更多</small></div>
+          <div class="row-ctrl"><label class="switch"><input id="chkCompact" type="checkbox"><i></i></label></div>
+        </div>
+        <div class="row">
+          <div class="row-label">按分类分组<small>「全部应用」下用小标题分隔各类</small></div>
+          <div class="row-ctrl"><label class="switch"><input id="chkGroup" type="checkbox"><i></i></label></div>
+        </div>
+        <div class="row">
+          <div class="row-label">强调色</div>
+          <div class="row-ctrl swatches" id="swatches"></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-title">背景</div>
+        <div class="row">
+          <div class="row-label">壁纸<small>支持 jpg / png / webp</small></div>
+          <div class="row-ctrl">
+            <button class="mini-btn" id="btnWallpaper">选择图片</button>
+            <button class="mini-btn" id="btnWallpaperClear">清除</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-label">壁纸遮罩<small>让图标在复杂背景上更清晰</small></div>
+          <div class="row-ctrl">
+            <input id="rngDim" type="range" min="0" max="90" step="5">
+            <span class="val" id="valDim">55%</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-label">毛玻璃面板</div>
+          <div class="row-ctrl"><label class="switch"><input id="chkGlass" type="checkbox"><i></i></label></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-title">数据</div>
+        <div class="row">
+          <div class="row-label">配置存放位置<small id="dataPath">—</small></div>
+          <div class="row-ctrl"><button class="mini-btn" id="btnOpenData">打开目录</button></div>
+        </div>
+        <div class="row">
+          <div class="row-label">备份配置<small>导出为 JSON，换电脑可还原</small></div>
+          <div class="row-ctrl">
+            <button class="mini-btn" id="btnExport">导出</button>
+            <button class="mini-btn" id="btnImport">导入</button>
+            <input type="file" id="fileImport" accept=".json,application/json" hidden>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-label">重新扫描本机<small>补充新装的软件，不会重复添加</small></div>
+          <div class="row-ctrl"><button class="mini-btn" id="btnRescan">立即扫描</button></div>
+        </div>
+        <div class="row">
+          <div class="row-label">重建图标缓存<small>图标显示异常时可以试一次</small></div>
+          <div class="row-ctrl"><button class="mini-btn" id="btnRebuild">重建</button></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-title">关于</div>
+        <p class="about">
+          AppDock v1.2（原「游戏管家」） · 纯本地运行，不联网、不上传任何数据。<br>
+          图标直接从程序文件里读取，不会截图也不会联网下载。
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 快捷键面板 -->
+<div class="modal-mask" id="keysMask" hidden>
+  <div class="modal keys-modal">
+    <div class="modal-head">
+      <h2>快捷键</h2>
+      <button class="icon-btn" id="keysClose">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body keys-body" id="keysBody"></div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toasts"></div>
+<script src="/app.js"></script>
+</body>
+</html>
